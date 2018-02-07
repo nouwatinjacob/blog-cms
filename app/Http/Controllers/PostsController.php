@@ -19,7 +19,9 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::all();
+
+        return view('admin.posts.index')->with('posts', $posts);
     }
 
     /**
@@ -67,7 +69,7 @@ class PostsController extends Controller
         $post = Post::create([
             'title' => $request->title,
             'content' => $request->content,
-            'featured' => 'uploads/posts'.$featured_new_name,
+            'featured' => 'uploads/posts/'.$featured_new_name,
             'category_id' => $request->category_id,
             'slug' => str_slug($request->title)
         ]);
@@ -120,6 +122,12 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+
+        $post->delete();
+
+        Session::flash('success', 'Post has been trashed successfully');
+
+        return redirect()->back();
     }
 }
