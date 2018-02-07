@@ -18,6 +18,11 @@ class Post extends Model
         return $this.belongsTo('App\Category');
     }
 
+    public function getFeaturedAttribute($featured)
+    {
+        return asset($featured);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
