@@ -17,11 +17,11 @@
         </div>
         <div class="form-group">
           <label for="featured">Featured image</label>
-          <input type="file" name="featured" id="title" class="form-control">
+          <input type="file" name="featured" id="featured" class="form-control">
         </div>
         <div class="form-group">
           <label for="category">Select a Category</label>
-          <select name="category_id" id="category" class="form-group">
+          <select name="category_id" id="category" class="form-control">
             @foreach($categories as $category)
               <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
