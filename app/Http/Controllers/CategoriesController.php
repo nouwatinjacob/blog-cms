@@ -91,7 +91,7 @@ class CategoriesController extends Controller
         $category->name = $request->name;
         $category->save();
 
-         return redirect(route('categories'));
+         return redirect()->route('categories');
     }
 
     /**
