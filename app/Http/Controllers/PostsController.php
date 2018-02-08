@@ -99,7 +99,11 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        $categories = Category::all();
+
+        
+        return view('admin.posts.edit')->with(['post'=> $post, 'categories' => $categories]);
     }
 
     /**
@@ -111,7 +115,33 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|max:225',
+            'content' => 'required',
+            'category_id' => 'required'
+        ]);
+
+        $post = Post::find($id);
+
+        if($request->hasFile('featured'))
+        {
+            $featured = $request->featured;
+            $featured_new_name = time().$featured->getClientOriginalName();
+            $featured->move('uploads/posts', $featured_new_name);
+
+            $post->featured = 'uploads/posts/'.$featured_new_name;
+        }
+
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->category_id = $request->category_id;
+        $post->slug = str_slug($request->title);
+
+        $post->save();
+
+        Session::flash('success', 'Post Updated successfully');
+
+        return redirect()->back();
     }
 
     /**
@@ -129,5 +159,34 @@ class PostsController extends Controller
         Session::flash('success', 'Post has been trashed successfully');
 
         return redirect()->back();
+    }
+
+
+    public function trashed()
+    {
+        $posts = Post::onlyTrashed()->get();
+
+        return view('admin.posts.trashed')->with('posts', $posts);
+    }
+
+
+    public function kill($id)
+    {
+        $post = Post::withTrashed()->where('id', $id)->first();
+        $post->forceDelete();
+
+        Session::flash('success', 'Post Permanently Deleted');
+
+        return redirect()->back();
+    }
+
+    public function restore($id)
+    {
+        $post = Post::withTrashed()->where('id', $id)->first();
+        $post->restore();
+
+        Session::flash('success', 'Post Restored successfully');
+
+        return redirect(route('posts'));
     }
 }
