@@ -12,18 +12,8 @@ class Post extends Model
 {
 
     use SoftDeletes;
-
-    public function category()
-    {
-        return $this.belongsTo('App\Category');
-    }
-
-    public function getFeaturedAttribute($featured)
-    {
-        return asset($featured);
-    }
-
-    /**
+    
+   /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -33,4 +23,14 @@ class Post extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
+
+    public function getFeaturedAttribute($featured)
+    {
+        return asset($featured);
+    }
 }
