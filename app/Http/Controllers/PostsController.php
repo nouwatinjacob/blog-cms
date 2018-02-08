@@ -107,7 +107,9 @@ class PostsController extends Controller
         $categories = Category::all();
 
         
-        return view('admin.posts.edit')->with(['post'=> $post, 'categories' => $categories]);
+        return view('admin.posts.edit')
+        ->with(['post'=> $post, 'categories' => $categories])
+        ->with('tags', Tag::all());
     }
 
     /**
@@ -122,7 +124,8 @@ class PostsController extends Controller
         $this->validate($request, [
             'title' => 'required|max:225',
             'content' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'tags' => 'required'
         ]);
 
         $post = Post::find($id);
@@ -140,6 +143,8 @@ class PostsController extends Controller
         $post->content = $request->content;
         $post->category_id = $request->category_id;
         $post->slug = str_slug($request->title);
+
+        $post->tags()->sync($request->tags);
 
         $post->save();
 
