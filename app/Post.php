@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Category;
+use App\Tag;
 
 class Post extends Model
 {
@@ -32,5 +33,10 @@ class Post extends Model
     public function getFeaturedAttribute($featured)
     {
         return asset($featured);
+    }
+
+    public function tags()
+    {
+        return $this->belongToMany('App\Tag');
     }
 }
