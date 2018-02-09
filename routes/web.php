@@ -82,4 +82,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
 
     Route::post('/user/store', 'UsersController@store')->name('user.store');
 
+    Route::post('/user/admin/{id}', 'UsersController@admin')->name('user.admin');
+
+    Route::get('/user/admin/{id}', 'UsersController@admin')->name('user.admin');
+
+    Route::get('/user/delete/{id}', 'UsersController@destroy')->name('user.delete');
+
+    // User Profile Route
+
+    Route::get('/user/profile', 'ProfilesController@index')->name('user.profile');
+
+    Route::post('/user/profile/update', 'ProfilesController@update')->name('user.profile.update');
+
 });
