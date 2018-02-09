@@ -33,4 +33,13 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Profile');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($user) {
+            $user->profile->delete();            
+        });
+    }
 }

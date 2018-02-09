@@ -29,7 +29,7 @@
              </td>
             <td>
               @if(Auth::id() !== $user->id)
-                <a href="{{ route('user.delete', ['id', $user->id])}}" class="btn btn-sm btn-danger"><span class="fas fa-trash"> delete</span></a>
+                <a href="{{ route('user.delete', ['id' => $user->id])}}" class="btn btn-sm btn-danger"><span class="fas fa-trash"> delete</span></a>
               @endif
             </td>
           </tr>      
