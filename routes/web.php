@@ -15,9 +15,11 @@ Route::get('/test', function () {
     return App\Profile::find(1)->user;
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Front end Routes
+Route::get('/', 'FrontEndController@index')->name('index');
+
+Route::get('post/{slug}', 'FrontEndController@singlePost')->name('post.single');
+
 
 Auth::routes();
 
@@ -93,5 +95,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     Route::get('/user/profile', 'ProfilesController@index')->name('user.profile');
 
     Route::post('/user/profile/update', 'ProfilesController@update')->name('user.profile.update');
+
+    // Settings Routes
+
+    Route::get('/settings', 'SettingsController@index')->name('settings')->middleware('admin');
+
+    Route::post('/settings/update', 'SettingsController@update')->name('settings.update')->middleware('admin');
 
 });
