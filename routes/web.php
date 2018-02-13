@@ -15,6 +15,16 @@ Route::get('/test', function () {
     return App\Profile::find(1)->user;
 });
 
+Route::post('/subscribe', function () {
+    $email = request('email');
+
+    Newsletter::subscribe($email);
+
+    Session::flash('subscribed', 'Successfully Subscribed');
+
+    return redirect()->back();
+});
+
 Route::get('/results', function () {
     $posts = \App\Post::where('title', 'like', '%'.request('query').'%')->get();
 
@@ -41,7 +51,7 @@ Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
 
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/dashboard', 'HomeController@index')->name('home');
 
     // All Posts Route
 
